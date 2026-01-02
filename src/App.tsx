@@ -7,7 +7,7 @@ import {
   getApiVersionForMinecraft,
   getGameVersions,
   getMinecraftYarnVersions, type YarnVersion
-} from "./fabric/api.ts"
+} from "./api/fabric.ts"
 import {ArrowForward, ContentCopy} from "@mui/icons-material"
 
 type GenFormData = {
