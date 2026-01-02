@@ -60,7 +60,7 @@ export async function getMinecraftYarnVersions(minecraftVersion: string) {
 }
 
 export async function getLauncherProfile(minecraftVersion: string, loaderVersion: string) {
-  return getJson<any>(META, `/v2/versions/loader/${minecraftVersion}/${loaderVersion}/profile/json`);
+  return getJson<never>(META, `/v2/versions/loader/${minecraftVersion}/${loaderVersion}/profile/json`);
 }
 
 export async function getJavadocList() {
@@ -90,7 +90,7 @@ function getMajorMinecraftVersion(minecraftVersion: string): number {
   return getVersionParts(minecraftVersion)[0];
 }
 
-function getVersionParts(minecraftVersion: String): number[] {
+function getVersionParts(minecraftVersion: string): number[] {
   // Remove any snapshot or pre-release suffix
   const targetVersion = minecraftVersion.split("-")[0];
   return targetVersion.split(".").map((v) => parseInt(v));
@@ -107,7 +107,7 @@ export function isApiVersionvalidForMcVersion(apiVersion: string, mcVersion: str
 
   let branch = mcVersion;
 
-  let versionBranches = ["1.14", "1.15", "1.16", "1.17", "1.18", "1.19", "1.20", "20w14infinite", "1.18_experimental"]
+  const versionBranches = ["1.14", "1.15", "1.16", "1.17", "1.18", "1.19", "1.20", "20w14infinite", "1.18_experimental"]
 
   versionBranches.forEach((v) => {
     if (mcVersion.startsWith(v)) {
@@ -118,7 +118,7 @@ export function isApiVersionvalidForMcVersion(apiVersion: string, mcVersion: str
   const majorVersion = getMajorMinecraftVersion(mcVersion);
   if (majorVersion >= 26) {
     const index = mcVersion.indexOf("-");
-    var release = mcVersion.substring(0, index === -1 ? mcVersion.length : index);
+    const release = mcVersion.substring(0, index === -1 ? mcVersion.length : index);
     branch = release;
   }
 
@@ -195,8 +195,8 @@ export function isApiVersionvalidForMcVersion(apiVersion: string, mcVersion: str
 }
 
 let xmlVersionParser = (xml: string): string[]  => {
-  let parser = new DOMParser();
-  let xmlDoc = parser.parseFromString(xml, "text/xml");
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xml, "text/xml");
   return Array.from(xmlDoc.getElementsByTagName("version")).map((v) => v.childNodes[0].nodeValue as string)
 }
 
@@ -205,7 +205,7 @@ export function setXmlVersionParser(parser: (xml: string) => string[]) {
 }
 
 export async function getMavenVersions(path: string): Promise<string[]> {
-  let metadata = await getText(MAVEN, path);
+  const metadata = await getText(MAVEN, path);
   return xmlVersionParser(metadata);
 }
 
@@ -220,9 +220,9 @@ async function getText(hostnames: string[], path: string): Promise<string> {
 }
 
 async function fetchFallback(hostnames: string[], path: string) : Promise<Response> {
-  // First try to make a request within 5 seconds to any of the hostnames.
-  // If that fails, try again with a 30 second timeout.
-  for (const timeout of [5000, 30000]) {
+  // First try to make a request within 0 seconds to any of the hostnames.
+  // If that fails, try again with a 5 second timeout.
+  for (const timeout of [0, 5000]) {
     for (const hostname of hostnames) {
       try {
         const response = await fetch(hostname + path, { signal: AbortSignal.timeout(timeout) });
