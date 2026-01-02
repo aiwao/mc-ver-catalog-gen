@@ -12,8 +12,8 @@ import {ArrowForward, ContentCopy} from "@mui/icons-material"
 
 type GenFormData = {
   versionRange: number[],
-  yarn: boolean,
   minecraft: boolean,
+  yarn: boolean,
   api: boolean,
 }
 
@@ -28,8 +28,8 @@ function App() {
   const { control, handleSubmit, setValue } = useForm<GenFormData>({
     defaultValues: {
       versionRange: [0, 0],
-      yarn: true,
       minecraft: true,
+      yarn: true,
       api: true
     }
   })
@@ -170,19 +170,19 @@ function App() {
             </Controller>
           </Box>
           <Box sx={{ display: "flex", flexDirection: "column" }}>
-            <Controller name="yarn" control={control} render={({ field }) => (
-              <FormControlLabel
-                {...field}
-                control={<Switch checked={field.value} defaultChecked />}
-                label="Yarn"
-              />
-            )}>
-            </Controller>
             <Controller name="minecraft" control={control} render={({ field }) => (
               <FormControlLabel
                 {...field}
                 control={<Switch checked={field.value} defaultChecked />}
                 label="Minecraft"
+              />
+            )}>
+            </Controller>
+            <Controller name="yarn" control={control} render={({ field }) => (
+              <FormControlLabel
+                {...field}
+                control={<Switch checked={field.value} defaultChecked />}
+                label="Yarn"
               />
             )}>
             </Controller>
