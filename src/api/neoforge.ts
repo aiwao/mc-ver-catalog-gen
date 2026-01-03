@@ -1,3 +1,4 @@
+// //https://neoforged.net/js/neoforge.js
 // const VERSIONS_ENDPOINT = "https://maven.neoforged.net/api/maven/versions/releases/"
 // const FALLBACK_VERSIONS_ENDPOINT = "https://maven.creeperhost.net/api/maven/versions/releases/"
 // const NEOFORGE_GAV = "net/neoforged/neoforge"
@@ -67,47 +68,9 @@
 //     }
 //
 //     // Sorts the mc versions so newest is topmost. We can't sort a set so convert to array first.
-//     const sortedMinecraftVersion = Array.from(minecraftVersions).sort(function (a,b) {
+//     const sortedMinecraftVersion = Array.from(minecraftVersions).sort(function (a: string,b: string) {
 //       return b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' });
 //     });
-//
-//     const latestInstallerUrl = `${DOWNLOAD_URL}/${NEOFORGE_GAV}/${encodeURIComponent(latestNeoForgeVersion)}/neoforge-${encodeURIComponent(latestNeoForgeVersion)}-installer.jar`;
-//     const latestChangelogUrl = "/changelog"; // This URL is the latest version's changelog on site. Always kept up to date automatically.
-//     let installerBoxHtml = `
-//             <div class="fileinfo__body">
-//                 <div class="selection_row">
-//                     <div class="selection_block" id="minecraftversionscontainer">
-//                         <label for="minecraftversions">Minecraft Version:&nbsp;</label>
-//                     </div>
-//                     <div class="selection_block"id="neoforgeversionscontainer">
-//                         <label for="neoforgeversions">NeoForge Version:&nbsp;</label>
-//                     </div>
-//                 </div>
-//                 <div class="download_row">
-//                     <a id="installerlink" href="${latestInstallerUrl}"><span>Click Here to Download Installer</span></span></a>
-//                     <a id="changeloglink" href="${latestChangelogUrl}"><span>See changelog</span></a>
-//                 </div>
-//             </div>
-//         `;
-//
-//     if (isInFallbackMode) {
-//       installerBoxHtml += `
-//                 <div class="fallback__instructions">
-//                     <span class="inlined">NeoForge Maven is temporarily offline.</span>
-//                     <span class="inlined">Run the installer with this command:</span>
-//                     <br/><span id="fallbackInstructions"><code>java -jar neoforge-${latestNeoForgeVersion}-installer.jar --mirror https://maven.creeperhost.net</code></span>
-//                 </div>
-//             `
-//     }
-//
-//     document.getElementById("filelist").innerHTML = installerBoxHtml;
-//
-//     // Creates the select element for Minecraft versions
-//     createAndPopulateSelectElement('Minecraft Versions', 'minecraftversions', minecraftValueChanged, sortedMinecraftVersion, latestMinecraftVersion, "minecraftversionscontainer");
-//
-//     // Creates the select element with NeoForge versions that are for the latest Minecraft version initially
-//     createAndPopulateSelectElement('NeoForge Versions', 'neoforgeversions', neoforgeValueChanged, allNeoforgeVersions.get(latestMinecraftVersion), latestNeoForgeVersion, "neoforgeversionscontainer");
-//   }
 // }
 //
 // export function getMcVersionFromNeoForgeVersion(versionString: string): string {

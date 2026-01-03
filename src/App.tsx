@@ -57,7 +57,7 @@ function App() {
         verSection.push(`${name} = "${ver}"`)
         verSectionMap.set(prefix, verSection)
         const libSection = libSectionMap.get(prefix) ?? []
-        libSection.push(`${name} { module = "${maven}", version.ref = "${name}" }`)
+        libSection.push(`${name} = { module = "${maven}", version.ref = "${name}" }`)
         libSectionMap.set(prefix, libSection)
       }
     }

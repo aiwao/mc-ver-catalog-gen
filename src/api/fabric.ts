@@ -1,3 +1,4 @@
+//https://github.com/FabricMC/fabricmc.net/blob/main/scripts/src/lib/Api.ts
 export interface GameVersion {
   version: string;
   stable: boolean;
