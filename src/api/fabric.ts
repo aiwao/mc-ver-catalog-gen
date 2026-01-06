@@ -1,4 +1,6 @@
 //https://github.com/FabricMC/fabricmc.net/blob/main/scripts/src/lib/Api.ts
+import {xmlVersionParser} from "./common.ts"
+
 export interface GameVersion {
   version: string;
   stable: boolean;
@@ -193,16 +195,6 @@ export function isApiVersionvalidForMcVersion(apiVersion: string, mcVersion: str
   }
 
   return apiVersion.endsWith("-" + branch) || apiVersion.endsWith("+" + branch);
-}
-
-let xmlVersionParser = (xml: string): string[]  => {
-  const parser = new DOMParser();
-  const xmlDoc = parser.parseFromString(xml, "text/xml");
-  return Array.from(xmlDoc.getElementsByTagName("version")).map((v) => v.childNodes[0].nodeValue as string)
-}
-
-export function setXmlVersionParser(parser: (xml: string) => string[]) {
-  xmlVersionParser = parser
 }
 
 export async function getMavenVersions(path: string): Promise<string[]> {
