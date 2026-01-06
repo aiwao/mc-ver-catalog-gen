@@ -9,18 +9,21 @@ import {
   getMinecraftYarnVersions, type YarnVersion
 } from "./api/fabric.ts"
 import {ArrowForward, ContentCopy} from "@mui/icons-material"
+import {getNeoForgeVersions} from "./api/neoforge.ts"
 
 type GenFormData = {
   versionRange: number[],
   minecraft: boolean,
   yarn: boolean,
   api: boolean,
+  neoForge: boolean
 }
 
 function App() {
   const [verMap, setVerMap] = useState<Map<number, string>>(new Map())
   const [yarnVerMap, setYarnVerMap] = useState<Map<number, string>>(new Map())
   const [apiVerMap, setApiVerMap] = useState<Map<number, string>>(new Map())
+  const [neoForgeVerMap, setNeoForgeVerMap] = useState<Map<number, string>>(new Map())
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [rangeText, setRangeText] = useState("")
@@ -30,7 +33,8 @@ function App() {
       versionRange: [0, 0],
       minecraft: true,
       yarn: true,
-      api: true
+      api: true,
+      neoForge: true,
     }
   })
   const [catalog, setCatalog] = useState<string | null>(null)
@@ -67,6 +71,7 @@ function App() {
         if (data.minecraft) addCatalog(verMap, i, "minecraft", "com.mojang:minecraft", mcVer)
         if (data.yarn) addCatalog(yarnVerMap, i, "yarn", "net.fabricmc:yarn", mcVer)
         if (data.api) addCatalog(apiVerMap, i, "fabric", "net.fabricmc.fabric-api:fabric-api", mcVer)
+        if (data.neoForge) addCatalog(neoForgeVerMap, i, "neoforge", "net.neoforged:neoforge", mcVer)
       }
     }
     if (verSectionMap.size != 0 && libSectionMap.size != 0) {
@@ -94,9 +99,11 @@ function App() {
       const stableVersions = mcVersions
         .filter(v => v.stable)
         .reverse()
+      const neoForgeVersions = await getNeoForgeVersions()
       const tempVerMap = new Map<number, string>()
       const tempYarnVerMap = new Map<number, string>()
       const tempApiVerMap = new Map<number, string>()
+      const tempNeoForgeVerMap = new Map<number, string>()
 
       for (let i = 0; i < stableVersions.length; i++) {
         const gameVer = stableVersions[i]
@@ -119,6 +126,10 @@ function App() {
           throw new Error(`failed to fetch fabric-api version for ${gameVerStr}`)
         }
         tempApiVerMap.set(i, apiVerForGameVer)
+        const neoForgeVer = neoForgeVersions.get(gameVerStr)
+        if (neoForgeVer) {
+          tempNeoForgeVerMap.set(i, neoForgeVer!)
+        }
       }
 
       const versionSize = tempVerMap.size-1
@@ -127,6 +138,7 @@ function App() {
       setVerMap(tempVerMap)
       setYarnVerMap(tempYarnVerMap)
       setApiVerMap(tempApiVerMap)
+      setNeoForgeVerMap(tempNeoForgeVerMap)
       setRangeText(`${getVerText(tempVerMap, 0)} - ${getVerText(tempVerMap, versionSize)}`)
     }
     fetchVersions()
@@ -191,6 +203,14 @@ function App() {
                 {...field}
                 control={<Switch checked={field.value} defaultChecked />}
                 label="Fabric API"
+              />
+            )}>
+            </Controller>
+            <Controller name="neoForge" control={control} render={({ field }) => (
+              <FormControlLabel
+                {...field}
+                control={<Switch checked={field.value} defaultChecked />}
+                label="Neo Forge"
               />
             )}>
             </Controller>

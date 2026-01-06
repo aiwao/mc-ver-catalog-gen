@@ -221,22 +221,18 @@ async function getText(hostnames: string[], path: string): Promise<string> {
 }
 
 async function fetchFallback(hostnames: string[], path: string) : Promise<Response> {
-  // First try to make a request within 0 seconds to any of the hostnames.
-  // If that fails, try again with a 5 second timeout.
-  for (const timeout of [0, 5000]) {
-    for (const hostname of hostnames) {
-      try {
-        const response = await fetch(hostname + path, { signal: AbortSignal.timeout(timeout) });
+  for (const hostname of hostnames) {
+    try {
+      const response = await fetch(hostname + path, { signal: AbortSignal.timeout(15000) });
 
-        if (response.ok) {
-          activeServiceIndex = hostnames.indexOf(hostname);
-          return response;
-        }
-
-        console.error(await response.text());
-      } catch (e) {
-        console.error(e);
+      if (response.ok) {
+        activeServiceIndex = hostnames.indexOf(hostname);
+        return response;
       }
+
+      console.error(await response.text());
+    } catch (e) {
+      console.error(e);
     }
   }
 
